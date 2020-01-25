@@ -1,0 +1,12 @@
+Vanilla vs Modified: 100 Trees
+
+Draws: 25, Vanilla wins: 38, Modified wins: 37
+
+
+Vanilla vs Modified: 10 Trees
+
+Draws: 16, Vanilla wins: 49, Modified wins: 35
+
+
+Our modified version of MCTS went about even with the vanilla version at 100 tree nodes, while it did considerably worse at smaller values.
+As the number of tree nodes go up our confidence that our modified MCTS will win also goes up.
