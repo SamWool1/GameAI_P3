@@ -1,7 +1,7 @@
 # Credit to https://www.geeksforgeeks.org/ml-monte-carlo-tree-search-mcts/ for providing pseudocode
 from mcts_node import MCTSNode
 from random import choice
-from math import sqrt, log
+from math import sqrt, log, inf
 
 num_nodes = 1000
 explore_faction = 2.
@@ -15,9 +15,12 @@ def calc_ucb(node):
 
     exploit = float(node.wins / node.visits)
     
-    ln_parent_visits = log(node.parent.visits)
-    explore_visits = sqrt(ln_parent_visits / node.visits)
-    explore = explore_faction * explore_visits
+    explore = 0
+    parent_log = float("-inf")
+    if node.parent.visits != 0:
+        parent_log = log(node.parent.visits)
+        explore = explore_faction * sqrt(parent_log / node.visits)
+
     return exploit + explore
 
 
