@@ -142,4 +142,12 @@ def think(board, state):
 
     # Return an action, typically the most frequently used action (from the root) or the action with the best
     # estimated win rate.
-    return None
+    best_node = (None, None) # 0 is node, 1 is win rate
+    for child_key in root_node.child_nodes:
+        child_node = root_node.child_nodes[child_key]
+        win_rate = child_node.wins / child_node.visits
+
+        if best_node == (None, None) or win_rate > best_node[1]:
+            best_node = (child_node, win_rate)
+
+    return best_node[0].parent_action
