@@ -78,17 +78,41 @@ def expand_leaf(node, board, state):
 
 
 def rollout(board, state):
-    """ Given the state of the game, the rollout plays out the remainder randomly.
+    """ Given the state of the game, the rollout plays out the remainder following a heuristic.
 
     Args:
         board:  The game setup.
         state:  The state of the game.
 
+    Heuristic:
+        1. If a 3-in-a-row can be made, make that move
+        2. Else, random action
+
     """
     if board.is_ended(state):
         return board.points_values(state)
     else:
-        new_state = board.next_state(state, choice(board.legal_actions(state)))
+        # Heuristic to determine next move
+        selected_action = choice(board.legal_actions(state))
+        action_list = board.legal_actions(state)
+        boxes = board.owned_boxes(state)
+        current_player = board.current_player(state)
+
+        boxes_owned = { 0: 0, 1: 0, 2: 0 }
+        for _, v in boxes:
+            boxes_owned[v] = boxes_owned[v] + 1
+
+        for action in action_list:
+            next_state = board.next_state(state, action)
+            next_boxes = board.owned_boxes(next_state)
+            next_boxes_owned = { 0: 0, 1: 0, 2: 0 }
+            for _, v in next_boxes:
+                next_boxes_owned[v] = next_boxes_owned[v] + 1
+            if next_boxes_owned[current_player] > boxes_owned[current_player]:
+                selected_action = action
+                break
+        
+        new_state = board.next_state(state, selected_action)
         return rollout(board, new_state)
 
 
