@@ -8,12 +8,13 @@ explore_faction = 2.
 
 
 # Calculate the upper confidence bound of a child node
-def calc_uct(node):
+def calc_ucb(node):
+    # Pull every arm once (probably redundant)
     if node.visits == 0:
-        return 0
+        return float('inf')
 
-    exploit = node.wins / node.visits
-    explore = 2 * (sqrt( log(node.parent.visits)/node.visits ))
+    exploit = float(node.wins / node.visits)
+    explore = explore_faction * (sqrt( log(node.parent.visits)/node.visits ))
     return exploit + explore
 
 
@@ -25,13 +26,26 @@ def traverse_nodes(node, board, state, identity):
         node:       A tree node from which the search is traversing.
         board:      The game setup.
         state:      The state of the game.
-        identity:   The bot's identity, either 'red' or 'blue'.
+        identity:   The bot's identity, either '1' or '2'.
 
     Returns:        A node from which the next stage of the search can proceed.
 
     """
-    pass
-    # Hint: return leaf_node
+    leaf_node = None
+
+    # If untried actions exist, try one
+    if node.untried_actions != []:
+        child_node = expand_leaf(node, board, state)
+        child_action = child_node.parent_action
+        node.child_nodes[child_action] = child_node
+        node.untried_actions.remove(child_action)
+        leaf_node = child_node
+
+    # Find highest UCB child
+    else:
+        pass
+        
+    return leaf_node
 
 
 def expand_leaf(node, board, state):
@@ -46,7 +60,7 @@ def expand_leaf(node, board, state):
 
     """
     pass
-    # Hint: return new_node
+    return new_node
 
 
 def rollout(board, state):
