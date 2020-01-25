@@ -31,7 +31,8 @@ def traverse_nodes(node, board, state, identity):
     Returns:        A node from which the next stage of the search can proceed.
 
     """
-    leaf_node = None
+    # Tuple, leaf_node at 0, UCB at 1
+    leaf_tuple = (None, None)
 
     # If untried actions exist, try one
     if node.untried_actions != []:
@@ -39,13 +40,16 @@ def traverse_nodes(node, board, state, identity):
         child_action = child_node.parent_action
         node.child_nodes[child_action] = child_node
         node.untried_actions.remove(child_action)
-        leaf_node = child_node
+        leaf_tuple = (child_node, 0)
 
-    # Find highest UCB child
+    # Find highest UCB child node
     else:
-        pass
+        for child_node in node.child_nodes:
+            child_ucb = calc_ucb(child_node)
+            if (leaf_tuple is (None, None)) or (leaf_tuple[1] < child_ucb):
+                leaf_tuple = (child_node, child_ucb)
         
-    return leaf_node
+    return leaf_tuple[0]
 
 
 def expand_leaf(node, board, state):
@@ -59,8 +63,10 @@ def expand_leaf(node, board, state):
     Returns:    The added child node.
 
     """
-    pass
-    return new_node
+    
+
+
+    return None
 
 
 def rollout(board, state):
