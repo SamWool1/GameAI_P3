@@ -1,0 +1,9 @@
+Bot A: 100 Tree; Bot B: 10 Tree
+Draws: 25; A wins: 27; B wins: 48
+Bot A: 100 Tree; Bot B: 50 Tree
+Draws: 21; A wins: 36; B wins: 43
+Bot A: 100 Tree; Bot B: 150 Tree
+Draw: 23; A wins: 45; B wins: 32
+Bot A: 100 Tree; Bot B: 200 Tree
+Draw: 16; A wins: 49; B wins: 35
+The results of our experiment suggest that, as the tree size increases, the chance of winning goes down, though not by an incredibly significant amount. There is a possibility that this could be due to random chance. Given more time, I would be interested to see if these results remain true at much larger tree sizes, with much greater differences in the number of trees.
