@@ -14,7 +14,10 @@ def calc_ucb(node):
         return float('inf')
 
     exploit = float(node.wins / node.visits)
-    explore = explore_faction * (sqrt( log(node.parent.visits)/node.visits ))
+    
+    ln_parent_visits = log(node.parent.visits)
+    explore_visits = sqrt(ln_parent_visits / node.visits)
+    explore = explore_faction * explore_visits
     return exploit + explore
 
 
@@ -44,7 +47,8 @@ def traverse_nodes(node, board, state, identity):
 
     # Find highest UCB child node
     else:
-        for child_node in node.child_nodes:
+        for child_key in node.child_nodes.keys():
+            child_node = node.child_nodes[child_key]
             child_ucb = calc_ucb(child_node)
             if (leaf_tuple is (None, None)) or (leaf_tuple[1] < child_ucb):
                 leaf_tuple = (child_node, child_ucb)
